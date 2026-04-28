@@ -1,0 +1,82 @@
+.dash {
+    display: grid;
+    padding: 40px;
+    gap: 30px;
+}
+.dash-home {
+    display: flex;
+    justify-content: space-between;
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 7px;
+
+    & input {
+        width: 70%;
+        border: none;
+        outline: none;
+        font-size: 17px;
+        padding-left: 10px;
+    }
+}
+.user {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.card-info {
+    display: flex;
+    justify-content: space-between;
+}
+.card {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    padding: 20px;
+    justify-content: center;
+    background-color: #fff;
+    height: 120px;
+    width: 30%;
+    border-radius: 7px;
+    gap: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.info {
+    font-weight: 600;
+}
+.table {
+    display: table;
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+
+    & th {
+        background-color: #e2e8f0;
+        text-align: start;
+        padding: 12px;
+    }
+
+    & td {
+        padding: 12px;
+    }
+
+    & .score {
+        color: rgb(8, 87, 8);
+        font-weight: 600;
+    }
+
+    & .score.red {
+        color: rgb(158, 106, 27);
+    }
+
+    & button {
+        background-color: #3b82f6;
+        color: white;
+        padding: 6px 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    
+}
