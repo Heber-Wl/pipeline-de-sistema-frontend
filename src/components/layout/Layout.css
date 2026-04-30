@@ -4,6 +4,9 @@
     min-height: 100vh;
 }
 .menu-lateral {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     width: 22%;
     background-color: #1e293b;
 }
@@ -36,7 +39,37 @@
         color: #fff;
     }
 }
+.rota {
+    text-decoration: none;
+}
+.user {
+    display: flex;
+    padding: 20px;
+    gap: 15px;
+}
 .pagina {
     width: 78%;
     background-color: #f5f6fa;
+}
+.logo-iniciais {
+    padding: 7px;
+    border-radius: 50%;
+    background-color: #f5f6fa;
+}
+.iniciais {
+    color: #1e293b;
+    font-weight: 600;
+}
+.nome-email {
+    display: flex;
+    flex-direction: column;
+}
+.nome {
+    color: #f5f6fa;
+    font-weight: 600;
+}
+.email {
+    color: #64666d;
+    font-size: 13px;
+    font-weight: 500;
 }
