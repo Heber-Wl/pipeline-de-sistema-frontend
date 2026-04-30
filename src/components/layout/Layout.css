@@ -39,6 +39,9 @@
         color: #fff;
     }
 }
+.rota {
+    text-decoration: none;
+}
 .user {
     display: flex;
     padding: 20px;

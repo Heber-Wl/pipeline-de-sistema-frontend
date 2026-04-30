@@ -1,4 +1,6 @@
+import { Link } from "react-router-dom";
 import type { ReactNode } from 'react';
+
 import './Layout.css';
 
 export default function Menu({ children }: { children: ReactNode }) {
@@ -11,9 +13,9 @@ export default function Menu({ children }: { children: ReactNode }) {
                         <h1 className='titulo'>Sistema</h1>
                     </div>
                     <div className="options">
-                        <a >Dashboard</a>
-                        <a >Oportunidades</a>
-                        <a >Perfil da Empresa</a>
+                        <Link className="rota" to="/">Dashboard</Link>
+                        <Link className="rota" to="/oportunidades">Oportunidades</Link>
+                        <Link className="rota" to="/perfil">Perfil da Empresa</Link>
                     </div>
                 </div>
                 <div className="user">
