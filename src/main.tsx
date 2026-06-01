@@ -1,24 +1,14 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import './index.css'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
 
-// Layout
-import Menu from './components/layout/Menu';
+import "./index.css";
+import App from "./App";
 
-// Páginas
-import Dashboard from './pages/Dashboard/Dashboard'
-import Oportunidades from './pages/Oportunidades/Oportunidade'
-
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
+ReactDOM.createRoot(document.getElementById("root")!).render(
+  <React.StrictMode>
     <BrowserRouter>
-      <Menu>
-        <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/oportunidades" element={<Oportunidades />} />
-        </Routes>
-      </Menu>
+      <App />
     </BrowserRouter>
-  </StrictMode>,
-)
+  </React.StrictMode>
+);
