@@ -8,14 +8,16 @@
     flex-direction: column;
     justify-content: space-between;
     width: 22%;
+    min-width: 280px;
+    max-width: 380px;
     background-color: #1e293b;
+    padding: 40px;
 }
 .home {
     display: flex;
     justify-content: start;
-    padding: 20px;
     gap: 7px;
-    margin-top: 30px;
+    margin-top: 40px;
 }
 .svg.search {
     height: 35px;
@@ -44,11 +46,10 @@
 }
 .user {
     display: flex;
-    padding: 20px;
     gap: 15px;
 }
 .pagina {
-    width: 78%;
+    width: 80%;
     background-color: #f5f6fa;
 }
 .logo-iniciais {
@@ -72,4 +73,17 @@
     color: #64666d;
     font-size: 13px;
     font-weight: 500;
+}
+.usuario-logout {
+    display: flex;
+    gap: 45px;
+    align-items: center;
+}
+.logout {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #cbd5f53d;
+    padding: 7px;
+    border-radius: 50%;
 }
