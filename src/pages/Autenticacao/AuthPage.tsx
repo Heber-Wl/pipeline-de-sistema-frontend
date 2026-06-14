@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import type { ReactNode, InputHTMLAttributes, SelectHTMLAttributes, ChangeEvent } from "react";
+import api from "../../services/api";
 
 // ── Types ────────────────────────────────────────────────────────────────────
 type FieldProps = {
@@ -28,15 +29,22 @@ type LoginFormProps = {
 type Step1Props = {
   onNext: () => void;
   onSwitch: (tab: string) => void;
+  formData: any;
+  setFormData: any;
 };
 
 type Step2Props = {
   onNext: () => void;
   onBack: () => void;
+  formData: any;
+  setFormData: any;
 };
 
 type Step3Props = {
   onBack: () => void;
+  onSubmit: () => void;
+  formData: any;
+  setFormData: any;
 };
 
 type CadastroFormProps = {
@@ -59,6 +67,22 @@ function maskCNPJ(value: string): string {
     .replace(/(\d{4})(\d)/, "$1-$2");
 }
 
+function maskPhone(value: string): string {
+  const v = value.replace(/\D/g, "").substring(0, 11);
+
+  if (v.length <= 2) {
+    return v;
+  }
+
+  if (v.length <= 7) {
+    return v.replace(/^(\d{2})(\d+)/, "($1) $2");
+  }
+
+  return v.replace(
+    /^(\d{2})(\d{5})(\d{0,4})/,
+    "($1) $2-$3"
+  );
+}
 // ── Sub-components ────────────────────────────────────────────────────────────
 function Field({ label, children }: FieldProps) {
   return (
@@ -112,6 +136,7 @@ function PrimaryButton({
 
   return (
     <button
+      type="button"
       onClick={onClick}
       style={{
         ...styles.btnPrimary,
@@ -148,6 +173,44 @@ function LoginForm({ onSwitch }: LoginFormProps) {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
+  const handleLogin = async () => {
+    if (!email || !password) {
+      alert("Preencha e-mail e senha.");
+      return;
+    }
+    try {
+      const response = await api.post("/login", {
+        email,
+        password,
+      });
+
+      const { user, token } = response.data;
+
+      localStorage.setItem(
+        "user",
+        JSON.stringify(user)
+      );
+
+      localStorage.setItem(
+        "token",
+        token
+      );
+
+      console.log(user.name);
+      console.log(user.company_id);
+
+      navigate("/dashboard");
+
+    } catch (error: any) {
+      console.error(error);
+
+      alert(
+        error?.response?.data?.error ||
+        "Erro ao realizar login."
+      );
+    }
+  };
+
   return (
     <div style={styles.formWrap}>
       <p style={styles.formTitle}>Boas-vindas de volta</p>
@@ -182,7 +245,7 @@ function LoginForm({ onSwitch }: LoginFormProps) {
         <span style={styles.link}>Esqueceu a senha?</span>
       </div>
 
-      <PrimaryButton onClick={() => navigate('/dashboard')}>Entrar</PrimaryButton>
+      <PrimaryButton onClick={handleLogin}>Entrar</PrimaryButton>
 
       <p style={styles.switchLink}>
         Não tem conta?{" "}
@@ -198,21 +261,15 @@ function LoginForm({ onSwitch }: LoginFormProps) {
 }
 
 // ── Cadastro Steps ────────────────────────────────────────────────────────────
-function Step1({ onNext, onSwitch }: Step1Props) {
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    password: "",
-    confirm: "",
-  });
+function Step1({ onSwitch, formData, setFormData, onNext }: Step1Props) {
 
-  const set =
-    (k: string) =>
-    (e: ChangeEvent<HTMLInputElement>) =>
-      setForm({
-        ...form,
-        [k]: e.target.value,
-      });
+  const set = 
+    (field: string) =>
+    (e: ChangeEvent<HTMLInputElement>) => 
+      setFormData({
+        ...formData,
+        [field]: e.target.value,
+      })
 
   return (
     <>
@@ -226,7 +283,7 @@ function Step1({ onNext, onSwitch }: Step1Props) {
         <Input
           type="text"
           placeholder="Seu nome"
-          value={form.name}
+          value={formData.name}
           onChange={set("name")}
         />
       </Field>
@@ -235,7 +292,7 @@ function Step1({ onNext, onSwitch }: Step1Props) {
         <Input
           type="email"
           placeholder="voce@empresa.com.br"
-          value={form.email}
+          value={formData.email}
           onChange={set("email")}
         />
       </Field>
@@ -244,7 +301,7 @@ function Step1({ onNext, onSwitch }: Step1Props) {
         <Input
           type="password"
           placeholder="Mínimo 8 caracteres"
-          value={form.password}
+          value={formData.password}
           onChange={set("password")}
         />
       </Field>
@@ -253,12 +310,29 @@ function Step1({ onNext, onSwitch }: Step1Props) {
         <Input
           type="password"
           placeholder="Repita a senha"
-          value={form.confirm}
+          value={formData.confirm}
           onChange={set("confirm")}
         />
       </Field>
 
-      <PrimaryButton onClick={onNext}>
+      <PrimaryButton 
+        onClick={() => {
+          if (
+            !formData.name ||
+            !formData.email ||
+            !formData.password ||
+            formData.password !== formData.confirm
+          ) {
+            alert("Preencha todos os campos.");
+            return;
+          }
+          if (formData.password !== formData.confirm) {
+            alert("As senhas não coincidem.");
+            return;
+          }
+
+          onNext();
+        }}>
         Continuar →
       </PrimaryButton>
 
@@ -275,27 +349,18 @@ function Step1({ onNext, onSwitch }: Step1Props) {
   );
 }
 
-function Step2({ onNext, onBack }: Step2Props) {
-  const [cnpj, setCnpj] = useState("");
-
-  const [form, setForm] = useState({
-    razao: "",
-    porte: "",
-    setor: "",
-    site: "",
-    telefone: "",
-  });
+function Step2({ onNext, onBack, formData, setFormData }: Step2Props) {
 
   const set =
-    (k: string) =>
+    (field: string) =>
     (
       e:
         | ChangeEvent<HTMLInputElement>
         | ChangeEvent<HTMLSelectElement>
     ) =>
-      setForm({
-        ...form,
-        [k]: e.target.value,
+      setFormData({
+        ...formData,
+        [field]: e.target.value,
       });
 
   return (
@@ -310,8 +375,8 @@ function Step2({ onNext, onBack }: Step2Props) {
         <Input
           type="text"
           placeholder="Nome oficial da empresa"
-          value={form.razao}
-          onChange={set("razao")}
+          value={formData.company_name}
+          onChange={set("company_name")}
         />
       </Field>
 
@@ -319,9 +384,12 @@ function Step2({ onNext, onBack }: Step2Props) {
         <Input
           type="text"
           placeholder="00.000.000/0000-00"
-          value={cnpj}
+          value={formData.cnpj}
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            setCnpj(maskCNPJ(e.target.value))
+            setFormData({
+              ...formData,
+              cnpj: maskCNPJ(e.target.value)
+            })
           }
           maxLength={18}
         />
@@ -330,8 +398,8 @@ function Step2({ onNext, onBack }: Step2Props) {
       <div style={styles.fieldRow}>
         <Field label="Porte">
           <Select
-            value={form.porte}
-            onChange={set("porte")}
+            value={formData.size}
+            onChange={set("size")}
           >
             <option value="" disabled>
               Selecione
@@ -347,8 +415,8 @@ function Step2({ onNext, onBack }: Step2Props) {
 
         <Field label="Setor">
           <Select
-            value={form.setor}
-            onChange={set("setor")}
+            value={formData.sector}
+            onChange={set("sector")}
           >
             <option value="" disabled>
               Selecione
@@ -370,21 +438,43 @@ function Step2({ onNext, onBack }: Step2Props) {
         <Input
           type="text"
           placeholder="https://suaempresa.com.br"
-          value={form.site}
-          onChange={set("site")}
+          value={formData.website}
+          onChange={set("website")}
         />
       </Field>
 
       <Field label="Telefone / WhatsApp">
         <Input
+          maxLength={15}
           type="text"
           placeholder="(00) 00000-0000"
-          value={form.telefone}
-          onChange={set("telefone")}
+          value={formData.phone}
+          onChange={(e) =>
+            setFormData({
+              ...formData,
+              phone: maskPhone(e.target.value),
+            })
+          }
         />
       </Field>
 
-      <PrimaryButton onClick={onNext}>
+      <PrimaryButton 
+        onClick={() => {
+          if (
+            !formData.company_name ||
+            !formData.cnpj ||
+            !formData.size ||
+            !formData.sector ||
+            !formData.website ||
+            !formData.phone
+          ) {
+            alert("Preencha todos os campos.");
+            return;
+          }
+
+          onNext();
+
+        }}>
         Continuar →
       </PrimaryButton>
 
@@ -402,51 +492,21 @@ function Step2({ onNext, onBack }: Step2Props) {
   );
 }
 
-function Step3({ onBack }: Step3Props) {
-  const [form, setForm] = useState({
-    uf: "",
-    cidade: "",
-    faturamento: "",
-    origem: "",
-  });
+function Step3({ onBack, formData, setFormData, onSubmit }: Step3Props) {
 
   const [terms, setTerms] = useState(false);
 
-  const set =
-    (k: string) =>
+  const set = 
+    (field: string) =>
     (
       e:
         | ChangeEvent<HTMLInputElement>
         | ChangeEvent<HTMLSelectElement>
-    ) =>
-      setForm({
-        ...form,
-        [k]: e.target.value,
-      });
-
-  const ufs = [
-    "AL",
-    "BA",
-    "CE",
-    "DF",
-    "GO",
-    "MA",
-    "MG",
-    "MS",
-    "MT",
-    "PA",
-    "PB",
-    "PE",
-    "PI",
-    "PR",
-    "RJ",
-    "RN",
-    "RS",
-    "SC",
-    "SE",
-    "SP",
-    "TO",
-  ];
+    ) => 
+      setFormData({
+        ...formData,
+        [field]: e.target.value,
+      })
 
   return (
     <>
@@ -459,32 +519,21 @@ function Step3({ onBack }: Step3Props) {
       </p>
 
       <div style={styles.fieldRow}>
-        <Field label="Estado (UF)">
-          <Select value={form.uf} onChange={set("uf")}>
-            <option value="" disabled>
-              UF
-            </option>
-
-            {ufs.map((uf) => (
-              <option key={uf}>{uf}</option>
-            ))}
-          </Select>
-        </Field>
 
         <Field label="Cidade">
           <Input
             type="text"
             placeholder="Sua cidade"
-            value={form.cidade}
-            onChange={set("cidade")}
+            value={ formData.location }
+            onChange={set("location")}
           />
         </Field>
       </div>
 
       <Field label="Faturamento anual estimado">
         <Select
-          value={form.faturamento}
-          onChange={set("faturamento")}
+          value={formData.annual_revenue}
+          onChange={set("annual_revenue")}
         >
           <option value="" disabled>
             Selecione a faixa
@@ -510,8 +559,8 @@ function Step3({ onBack }: Step3Props) {
 
       <Field label="Como conheceu o Sistema?">
         <Select
-          value={form.origem}
-          onChange={set("origem")}
+          value={formData.discovery_source}
+          onChange={set("discovery_source")}
         >
           <option value="" disabled>
             Selecione
@@ -552,7 +601,26 @@ function Step3({ onBack }: Step3Props) {
       </div>
 
       <div style={{ marginTop: 14 }}>
-        <PrimaryButton>
+        <PrimaryButton
+          onClick={() => {
+            if (
+              !formData.location ||
+              !formData.annual_revenue ||
+              !formData.discovery_source
+            ) {
+              alert("Preencha todos os campos.");
+              return;
+            }
+
+            if (!terms) {
+              alert("Você precisa aceitar os termos.");
+              return;
+            }
+
+            onSubmit();
+          }}
+
+        >
           Criar conta
         </PrimaryButton>
       </div>
@@ -576,6 +644,72 @@ function CadastroForm({
   onSwitch,
 }: CadastroFormProps) {
   const [step, setStep] = useState(1);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirm: "",
+
+    company_name: "",
+    cnpj: "",
+    size: "",
+    sector: "",
+    website: "",
+    phone: "",
+
+    location: "",
+    annual_revenue: "",
+    discovery_source: "",
+  });
+  
+  const handleRegister = async () => {
+    try {
+      const response = await api.post("/register", {
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+
+        company_name: formData.company_name,
+        cnpj: formData.cnpj,
+        sector: formData.sector,
+        size: formData.size,
+        website: formData.website,
+        phone: formData.phone,
+
+        location: formData.location,
+        annual_revenue: formData.annual_revenue,
+        discovery_source: formData.discovery_source,
+      });
+
+      setFormData({
+        name: "",
+        email: "",
+        password: "",
+        confirm: "",
+
+        company_name: "",
+        cnpj: "",
+        size: "",
+        sector: "",
+        website: "",
+        phone: "",
+
+        location: "",
+        annual_revenue: "",
+        discovery_source: "",
+      });
+
+      setStep(1);
+      onSwitch("login");
+
+      alert("Cadastro realizado com sucesso!");
+      console.log(response.data);
+
+    } catch (error) {
+      console.error(error);
+      alert("Erro ao cadastrar.");
+    }
+  };
 
   return (
     <div style={styles.formWrap}>
@@ -585,6 +719,8 @@ function CadastroForm({
         <Step1
           onNext={() => setStep(2)}
           onSwitch={onSwitch}
+          formData={formData}
+          setFormData={setFormData}
         />
       )}
 
@@ -592,11 +728,18 @@ function CadastroForm({
         <Step2
           onNext={() => setStep(3)}
           onBack={() => setStep(1)}
+          formData={formData}
+          setFormData={setFormData}
         />
       )}
 
       {step === 3 && (
-        <Step3 onBack={() => setStep(2)} />
+        <Step3 
+          onBack={() => setStep(2)}
+          formData={formData}
+          setFormData={setFormData}
+          onSubmit={handleRegister}
+        />
       )}
     </div>
   );
