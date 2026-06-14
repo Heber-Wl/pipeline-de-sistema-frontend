@@ -173,6 +173,44 @@ function LoginForm({ onSwitch }: LoginFormProps) {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
+  const handleLogin = async () => {
+    if (!email || !password) {
+      alert("Preencha e-mail e senha.");
+      return;
+    }
+    try {
+      const response = await api.post("/login", {
+        email,
+        password,
+      });
+
+      const { user, token } = response.data;
+
+      localStorage.setItem(
+        "user",
+        JSON.stringify(user)
+      );
+
+      localStorage.setItem(
+        "token",
+        token
+      );
+
+      console.log(user.name);
+      console.log(user.company_id);
+
+      navigate("/dashboard");
+
+    } catch (error: any) {
+      console.error(error);
+
+      alert(
+        error?.response?.data?.error ||
+        "Erro ao realizar login."
+      );
+    }
+  };
+
   return (
     <div style={styles.formWrap}>
       <p style={styles.formTitle}>Boas-vindas de volta</p>
@@ -207,7 +245,7 @@ function LoginForm({ onSwitch }: LoginFormProps) {
         <span style={styles.link}>Esqueceu a senha?</span>
       </div>
 
-      <PrimaryButton onClick={() => navigate('/dashboard')}>Entrar</PrimaryButton>
+      <PrimaryButton onClick={handleLogin}>Entrar</PrimaryButton>
 
       <p style={styles.switchLink}>
         Não tem conta?{" "}
