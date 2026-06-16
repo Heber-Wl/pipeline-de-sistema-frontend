@@ -749,24 +749,52 @@ function CadastroForm({
 function Sidebar() {
   return (
     <div style={styles.sidebar}>
+      <div style={styles.sidebarGlow} />
+
       <div style={styles.brand}>
         <div style={styles.brandDotRow}>
-          <div style={styles.brandDot} />
+          <div style={styles.brandIcon}>
+            <span style={styles.brandIconText}>🔎</span>
+          </div>
 
-          <span style={styles.brandName}>
-            Sistema
-          </span>
+          <div>
+            <span style={styles.brandName}>
+              Sistema
+            </span>
+
+            <p style={styles.brandMiniText}>
+              Inteligência de oportunidades
+            </p>
+          </div>
         </div>
 
         <p style={styles.brandDesc}>
-          Encontre as melhores oportunidades
-          para sua empresa crescer.
+          Encontre, priorize e acompanhe oportunidades estratégicas para sua empresa crescer com mais precisão.
         </p>
+
+        <div style={styles.sidebarBenefits}>
+          <div style={styles.sidebarBenefit}>
+            <span style={styles.benefitIcon}>✓</span>
+            <span>Busca automatizada de editais</span>
+          </div>
+
+          <div style={styles.sidebarBenefit}>
+            <span style={styles.benefitIcon}>✓</span>
+            <span>Score de aderência por empresa</span>
+          </div>
+
+          <div style={styles.sidebarBenefit}>
+            <span style={styles.benefitIcon}>✓</span>
+            <span>Priorização por prazo e relevância</span>
+          </div>
+        </div>
       </div>
 
-      <span style={styles.brandFooter}>
-        © 2026 Sistema
-      </span>
+      <div style={styles.sidebarFooterBox}>
+        <span style={styles.footerLabel}>Pipeline inteligente</span>
+        <strong style={styles.footerTitle}>Prosas · PNCP · Finep</strong>
+        <span style={styles.brandFooter}>© 2026 Sistema</span>
+      </div>
     </div>
   );
 }
@@ -827,21 +855,27 @@ export default function AuthPage() {
 
 // ── Styles ────────────────────────────────────────────────────────────────────
 const colors = {
-  bg: "#ffffff",
+  bg: "#f8fafc",
   bgCard: "#ffffff",
-  bgInput: "#f9f9fb",
+  bgInput: "#f8fafc",
   bgInputFocus: "#ffffff",
-  border: "#e2e2e8",
-  borderFocus: "#4f8ef7",
-  sidebar: "#1e293b",
-  accent: "#4f8ef7",
-  accentHover: "#3a7de8",
-  textPrimary: "#111118",
-  textSecondary: "#5a5a72",
-  textTertiary: "#9898b0",
+  border: "#e2e8f0",
+  borderFocus: "#2563eb",
+
+  sidebar: "#0f172a",
+  sidebarLight: "#1e293b",
+
+  accent: "#2563eb",
+  accentHover: "#1d4ed8",
+  accentSoft: "#dbeafe",
+
+  textPrimary: "#0f172a",
+  textSecondary: "#475569",
+  textTertiary: "#94a3b8",
+
   textSidebar: "#ffffff",
-  textSidebarMuted: "#666688",
-  textSidebarFaint: "#44445a",
+  textSidebarMuted: "#cbd5e1",
+  textSidebarFaint: "#64748b",
 };
 
 const styles = {
@@ -850,167 +884,271 @@ const styles = {
     minHeight: "100vh",
     width: "100%",
     background: colors.bg,
-    fontFamily:
-      "'DM Sans', 'Segoe UI', sans-serif",
+    fontFamily: "'DM Sans', 'Segoe UI', sans-serif",
   },
 
   sidebar: {
-    width: "22%",
-    minWidth: "280px",
-    maxWidth: "380px",
-    background: colors.sidebar,
-    display: "flex",
-    flexDirection: "column" as const,
-    padding: "40px",
-    justifyContent: "space-between",
-  },
+  width: "32%",
+  minWidth: "320px",
+  maxWidth: "440px",
+  background: "linear-gradient(160deg, #0f172a 0%, #07111f 100%)",
+  display: "flex",
+  flexDirection: "column" as const,
+  padding: "48px 42px",
+  justifyContent: "space-between",
+  position: "relative" as const,
+  overflow: "hidden",
+},
 
-  brand: {
-    display: "flex",
-    flexDirection: "column" as const,
-    minHeight: "70vh",
-    marginTop: 40,
-    gap: 10,
-  },
+sidebarGlow: {
+  position: "absolute" as const,
+  width: 260,
+  height: 260,
+  borderRadius: "50%",
+  background: "rgba(37, 99, 235, 0.18)",
+  filter: "blur(70px)",
+  top: -70,
+  right: -90,
+},
 
-  brandDotRow: {
-    display: "flex",
-    alignItems: "center",
-    gap: 8,
-  },
+brand: {
+  display: "flex",
+  flexDirection: "column" as const,
+  minHeight: "70vh",
+  marginTop: 30,
+  gap: 18,
+  position: "relative" as const,
+  zIndex: 2,
+},
 
-  brandDot: {
-    width: 20,
-    height: 20,
-    borderRadius: "50%",
-    background: colors.accent,
-  },
+brandDotRow: {
+  display: "flex",
+  alignItems: "center",
+  gap: 14,
+},
 
-  brandName: {
-    color: colors.textSidebar,
-    fontSize: 30,
-    fontWeight: 600,
-  },
+brandIcon: {
+  width: 56,
+  height: 56,
+  borderRadius: 18,
+  background: "rgba(219, 234, 254, 0.95)",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  boxShadow: "0 18px 38px rgba(37, 99, 235, 0.22)",
+},
 
-  brandDesc: {
-    fontSize: 18,
-    color: colors.textSidebarMuted,
-    lineHeight: 1.65,
-    marginTop: 8,
-  },
+brandIconText: {
+  fontSize: 26,
+},
 
-  brandFooter: {
-    fontSize: 18,
-    color: colors.textSidebarFaint,
-  },
+brandName: {
+  color: "#ffffff",
+  fontSize: 34,
+  lineHeight: 1,
+  fontWeight: 850,
+  letterSpacing: "-0.04em",
+},
+
+brandMiniText: {
+  margin: "6px 0 0",
+  color: "#93c5fd",
+  fontSize: 13,
+  fontWeight: 700,
+  textTransform: "uppercase" as const,
+  letterSpacing: "0.08em",
+},
+
+brandDesc: {
+  maxWidth: 330,
+  fontSize: 17,
+  color: "#cbd5e1",
+  lineHeight: 1.7,
+  marginTop: 18,
+},
+
+sidebarBenefits: {
+  display: "flex",
+  flexDirection: "column" as const,
+  gap: 12,
+  marginTop: 16,
+},
+
+sidebarBenefit: {
+  display: "flex",
+  alignItems: "center",
+  gap: 10,
+  color: "#e2e8f0",
+  fontSize: 14,
+},
+
+benefitIcon: {
+  width: 22,
+  height: 22,
+  borderRadius: "50%",
+  background: "rgba(37, 99, 235, 0.22)",
+  color: "#93c5fd",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  fontSize: 13,
+  fontWeight: 900,
+},
+
+sidebarFooterBox: {
+  position: "relative" as const,
+  zIndex: 2,
+  padding: 18,
+  borderRadius: 18,
+  border: "1px solid rgba(148, 163, 184, 0.22)",
+  background: "rgba(15, 23, 42, 0.45)",
+  backdropFilter: "blur(10px)",
+  display: "flex",
+  flexDirection: "column" as const,
+  gap: 6,
+},
+
+footerLabel: {
+  color: "#93c5fd",
+  fontSize: 12,
+  fontWeight: 800,
+  textTransform: "uppercase" as const,
+  letterSpacing: "0.08em",
+},
+
+footerTitle: {
+  color: "#ffffff",
+  fontSize: 15,
+},
+
+brandFooter: {
+  fontSize: 13,
+  color: "#64748b",
+  marginTop: 6,
+},
 
   rightPanel: {
-    width: "78%",
+    width: "68%",
+    minHeight: "100vh",
     display: "flex",
     flexDirection: "column" as const,
     alignItems: "center",
     justifyContent: "center",
-    padding: "4%",
-    background: colors.bgCard,
-    // overflowY: "auto" as const,
+    padding: "48px",
+    background:
+      "radial-gradient(circle at top right, rgba(37, 99, 235, 0.08), transparent 34%), #f8fafc",
   },
 
   tabs: {
     display: "flex",
     width: "100%",
-    maxWidth: "650px",
-    borderBottom: `1px solid ${colors.border}`,
-    marginBottom: 40,
+    maxWidth: "620px",
+    background: "#ffffff",
+    border: `1px solid ${colors.border}`,
+    borderRadius: 16,
+    padding: 6,
+    marginBottom: 28,
+    boxShadow: "0 14px 35px rgba(15, 23, 42, 0.06)",
   },
 
   tab: {
     flex: 1,
-    padding: "10px 0",
-    fontSize: 18,
-    fontWeight: 600,
+    padding: "13px 0",
+    fontSize: 15,
+    fontWeight: 800,
     textAlign: "center" as const,
     cursor: "pointer",
     color: colors.textTertiary,
-    borderBottom: "2px solid transparent",
-    transition: "color 0.15s, border-color 0.15s",
+    borderRadius: 12,
+    transition: "all 0.18s ease",
   },
 
   tabActive: {
-    color: colors.accent,
-    borderBottom: `2px solid ${colors.accent}`,
+    color: "#ffffff",
+    background: colors.accent,
+    boxShadow: "0 10px 25px rgba(37, 99, 235, 0.25)",
   },
 
   formWrap: {
     width: "100%",
-    maxWidth: 650,
+    maxWidth: 620,
+    background: "#ffffff",
+    border: `1px solid ${colors.border}`,
+    borderRadius: 24,
+    padding: "34px",
+    boxShadow: "0 24px 60px rgba(15, 23, 42, 0.08)",
   },
 
   formTitle: {
-    fontSize: "2.2rem",
-    fontWeight: 500,
+    fontSize: "2.1rem",
+    fontWeight: 850,
     color: colors.textPrimary,
-    marginBottom: 4,
+    margin: "0 0 8px",
+    letterSpacing: "-0.04em",
   },
 
   formSubtitle: {
-    fontSize: 13,
+    fontSize: 14,
     color: colors.textSecondary,
-    marginBottom: 24,
+    margin: "0 0 28px",
+    lineHeight: 1.55,
   },
 
   stepIndicator: {
     display: "flex",
-    gap: 6,
-    marginBottom: 24,
+    gap: 8,
+    marginBottom: 28,
   },
 
   step: {
     flex: 1,
-    height: 3,
-    borderRadius: 2,
-    background: colors.border,
+    height: 6,
+    borderRadius: 999,
+    background: "#e2e8f0",
+    transition: "0.2s ease",
   },
 
   stepDone: {
     background: colors.accent,
+    boxShadow: "0 6px 16px rgba(37, 99, 235, 0.25)",
   },
 
   field: {
     display: "flex",
     flexDirection: "column" as const,
-    gap: 5,
-    marginBottom: 13,
+    gap: 8,
+    marginBottom: 16,
   },
 
   fieldRow: {
-    display: "flex",
-    gap: 10,
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr",
+    gap: 14,
   },
 
   label: {
-    fontSize: 12,
+    fontSize: 13,
     color: colors.textSecondary,
-    fontWeight: 500,
-    letterSpacing: "0.03em",
+    fontWeight: 800,
+    letterSpacing: "0.02em",
   },
 
   input: {
     width: "100%",
-    padding: "1rem",
-    fontSize: "1rem",
+    padding: "15px 16px",
+    fontSize: "0.98rem",
     background: colors.bgInput,
-    border: `0.5px solid ${colors.border}`,
-    borderRadius: 8,
+    border: `1px solid ${colors.border}`,
+    borderRadius: 14,
     color: colors.textPrimary,
     outline: "none",
     fontFamily: "inherit",
-    transition:
-      "border-color 0.15s, box-shadow 0.15s",
+    transition: "border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease",
   },
 
   inputFocused: {
     borderColor: colors.borderFocus,
-    boxShadow: "0 0 0 3px rgba(79,142,247,0.1)",
+    boxShadow: "0 0 0 4px rgba(37, 99, 235, 0.12)",
     background: colors.bgInputFocus,
   },
 
@@ -1019,67 +1157,77 @@ const styles = {
     cursor: "pointer",
     appearance: "none" as const,
     backgroundImage:
-      "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239898b0' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E\")",
+      "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2.4'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E\")",
     backgroundRepeat: "no-repeat",
-    backgroundPosition: "right 10px center",
-    paddingRight: 28,
+    backgroundPosition: "right 14px center",
+    paddingRight: 40,
   },
 
   btnPrimary: {
     width: "100%",
-    padding: "1rem",
+    padding: "15px 18px",
     fontSize: "1rem",
-    fontWeight: 500,
+    fontWeight: 850,
     background: colors.accent,
     border: "none",
-    borderRadius: 8,
+    borderRadius: 14,
     color: "#fff",
     cursor: "pointer",
     fontFamily: "inherit",
-    marginTop: 8,
-    transition: "background 0.15s",
+    marginTop: 10,
+    transition: "all 0.18s ease",
+    boxShadow: "0 14px 30px rgba(37, 99, 235, 0.25)",
   },
 
   btnPrimaryHover: {
     background: colors.accentHover,
+    transform: "translateY(-1px)",
+    boxShadow: "0 18px 38px rgba(37, 99, 235, 0.32)",
   },
 
   forgot: {
     textAlign: "right" as const,
-    marginTop: -6,
-    marginBottom: 8,
+    marginTop: -4,
+    marginBottom: 10,
   },
 
   link: {
-    fontSize: 12,
+    fontSize: 13,
     color: colors.accent,
     cursor: "pointer",
+    fontWeight: 800,
   },
 
   switchLink: {
     textAlign: "center" as const,
-    marginTop: 16,
-    fontSize: 13,
+    marginTop: 18,
+    fontSize: 14,
     color: colors.textSecondary,
   },
 
   checkboxRow: {
     display: "flex",
     alignItems: "flex-start",
-    gap: 8,
-    marginTop: 4,
+    gap: 10,
+    marginTop: 8,
+    padding: 14,
+    borderRadius: 14,
+    background: "#f8fafc",
+    border: `1px solid ${colors.border}`,
   },
 
   checkbox: {
-    marginTop: 2,
+    marginTop: 3,
     accentColor: colors.accent,
     cursor: "pointer",
+    width: 16,
+    height: 16,
   },
 
   checkboxLabel: {
-    fontSize: 12,
+    fontSize: 13,
     color: colors.textSecondary,
-    lineHeight: 1.5,
+    lineHeight: 1.55,
     cursor: "pointer",
   },
 };

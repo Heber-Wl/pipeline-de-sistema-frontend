@@ -1,89 +1,244 @@
 .content {
-    display: flex;
     width: 100%;
     min-height: 100vh;
+    display: flex;
+    background: #f8fafc;
 }
+
 .menu-lateral {
+    width: 280px;
+    min-width: 280px;
+    min-height: 100vh;
+    padding: 28px 22px;
+    background: linear-gradient(180deg, #0f172a 0%, #111827 100%);
+    color: #ffffff;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 22%;
-    min-width: 280px;
-    max-width: 380px;
-    background-color: #1e293b;
-    padding: 40px;
+    border-right: 1px solid rgba(148, 163, 184, 0.12);
+    position: sticky;
+    top: 0;
 }
-.home {
-    display: flex;
-    justify-content: start;
-    gap: 7px;
-    margin-top: 40px;
-}
-.svg.search {
-    height: 35px;
-}
-.titulo {
-    color: #fff;
-}
-.options {
-    display: grid;
-    padding: 20px;
-    gap: 10px;
 
-    & a {
-        color: #cbd5f5;
-        font-weight: 500;
-        cursor: pointer;
-        font-size: 18px;
-    }
-
-    & a:hover {
-        color: #fff;
-    }
-}
-.rota {
-    text-decoration: none;
-}
-.user {
-    display: flex;
-    gap: 15px;
-}
-.pagina {
-    width: 80%;
-    background-color: #f5f6fa;
-}
-.logo-iniciais {
-    padding: 7px;
-    border-radius: 50%;
-    background-color: #f5f6fa;
-}
-.iniciais {
-    color: #1e293b;
-    font-weight: 600;
-}
-.nome-email {
+.menu-topo {
     display: flex;
     flex-direction: column;
+    gap: 34px;
 }
-.nome {
-    color: #f5f6fa;
-    font-weight: 600;
-}
-.email {
-    color: #64666d;
-    font-size: 13px;
-    font-weight: 500;
-}
-.usuario-logout {
+
+.home {
     display: flex;
-    gap: 45px;
     align-items: center;
+    gap: 14px;
 }
-.logout {
+
+.menu-logo {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    border-radius: 15px;
+    background: #dbeafe;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #cbd5f53d;
-    padding: 7px;
+    box-shadow: 0 14px 28px rgba(37, 99, 235, 0.22);
+}
+
+.svg.search {
+    width: 32px;
+    height: 32px;
+}
+
+.titulo {
+    margin: 0;
+    color: #ffffff;
+    font-size: 26px;
+    font-weight: 850;
+    letter-spacing: -0.04em;
+    line-height: 1;
+}
+
+.menu-subtitulo {
+    display: block;
+    margin-top: 5px;
+    color: #93c5fd;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.rota {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 14px;
+    border-radius: 12px;
+    color: #cbd5e1;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 700;
+    transition: 0.18s ease;
+}
+
+.rota-icon {
+    width: 22px;
+    min-width: 22px;
+    display: inline-flex;
+    justify-content: center;
+}
+
+.rota:hover {
+    background: rgba(59, 130, 246, 0.12);
+    color: #ffffff;
+}
+
+.rota.active {
+    background: #1d4ed8;
+    color: #ffffff;
+    box-shadow: 0 12px 28px rgba(37, 99, 235, 0.26);
+}
+
+.usuario-logout {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px;
+    border-radius: 18px;
+    background: rgba(15, 23, 42, 0.55);
+    border: 1px solid rgba(148, 163, 184, 0.18);
+}
+
+.menu-user {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.logo-iniciais {
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
     border-radius: 50%;
+    background: #dbeafe;
+    color: #0f172a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+}
+
+.iniciais {
+    font-size: 14px;
+    font-weight: 900;
+}
+
+.nome-email {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.nome {
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 800;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 130px;
+}
+
+.email {
+    color: #94a3b8;
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 130px;
+}
+
+.logout {
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
+    border: none;
+    border-radius: 12px;
+    background: rgba(148, 163, 184, 0.12);
+    color: #cbd5e1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.18s ease;
+}
+
+.logout:hover {
+    background: rgba(239, 68, 68, 0.16);
+    color: #fca5a5;
+}
+
+.pagina {
+    flex: 1;
+    min-width: 0;
+    min-height: 100vh;
+    background: #f8fafc;
+    overflow-x: hidden;
+}
+
+@media (max-width: 900px) {
+    .menu-lateral {
+        width: 88px;
+        min-width: 88px;
+        padding: 24px 12px;
+        align-items: center;
+    }
+
+    .home {
+        justify-content: center;
+    }
+
+    .home > div:last-child {
+        display: none;
+    }
+
+    .options {
+        width: 100%;
+    }
+
+    .rota {
+        justify-content: center;
+        padding: 13px;
+    }
+
+    .rota-icon {
+        width: auto;
+    }
+
+    .rota {
+        font-size: 0;
+    }
+
+    .rota-icon {
+        font-size: 18px;
+    }
+
+    .usuario-logout {
+        padding: 10px;
+        justify-content: center;
+    }
+
+    .nome-email,
+    .logout {
+        display: none;
+    }
 }
