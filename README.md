@@ -1,73 +1,173 @@
-# React + TypeScript + Vite
+# Sistema de Oportunidades para Empresas
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Plataforma web desenvolvida para auxiliar empresas na busca e acompanhamento de editais, licitações, chamadas públicas e oportunidades de negócio.
 
-Currently, two official plugins are available:
+## Tecnologias Utilizadas
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+### Front-end
 
-## React Compiler
+* React
+* TypeScript
+* Vite
+* React Router
+* Axios
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Back-end
 
-## Expanding the ESLint configuration
+* Python
+* FastAPI
+* SQLAlchemy
+* PostgreSQL
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Pré-requisitos
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+Antes de iniciar o projeto, certifique-se de possuir instalado:
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+* Node.js 18+;
+* npm;
+* Git.
+
+Verifique as versões instaladas:
+
+```bash
+node -v
+npm -v
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Clonando o Projeto
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+git clone <https://github.com/Heber-Wl/pipeline-de-sistema-frontend>
 ```
+
+Acesse a pasta do projeto:
+
+```bash
+cd nome-do-projeto
+```
+
+---
+
+## Instalando as Dependências
+
+Execute o comando abaixo para instalar todas as dependências do front-end:
+
+```bash
+npm install
+```
+
+---
+
+## Configuração da API
+
+Verifique se a URL da API está configurada corretamente no arquivo responsável pela conexão com o backend.
+
+Exemplo:
+
+```ts
+import axios from "axios";
+
+const api = axios.create({
+    baseURL: "http://localhost:8000"
+});
+
+export default api;
+```
+
+---
+
+## Executando o Projeto
+
+Inicie o servidor de desenvolvimento:
+
+```bash
+npm run dev
+```
+
+Após a inicialização, o Vite exibirá um endereço semelhante a:
+
+```text
+Local: http://localhost:5173
+```
+
+Abra o navegador e acesse:
+
+```text
+http://localhost:5173
+```
+
+---
+
+## Build de Produção
+
+Para gerar uma versão otimizada para produção:
+
+```bash
+npm run build
+```
+
+Os arquivos serão gerados na pasta:
+
+```text
+dist/
+```
+
+---
+
+## Visualizando a Build Localmente
+
+Após gerar a build:
+
+```bash
+npm run preview
+```
+
+---
+
+## Estrutura do Projeto
+
+```text
+src/
+│
+├── assets/
+├── components/
+├── pages/
+├── services/
+├── routes/
+├── styles/
+│
+├── App.tsx
+├── main.tsx
+└── vite-env.d.ts
+```
+
+---
+
+## Funcionalidades
+
+* Cadastro de empresas;
+* Login e autenticação de usuários;
+* Gerenciamento de perfil empresarial;
+* Seleção de interesses;
+* Busca de oportunidades;
+* Sistema de recomendação por interesses;
+* Visualização de editais e chamadas públicas;
+* Ranking por score de aderência.
+
+---
+
+## Scripts Disponíveis
+
+### Ambiente de Desenvolvimento
+
+```bash
+npm run dev
+```
+
+## Equipe
+
+Projeto desenvolvido para centralizar e recomendar oportunidades para empresas, conectando organizações a editais, licitações e chamadas públicas relevantes para seu perfil e interesses.
